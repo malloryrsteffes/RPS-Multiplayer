@@ -22,6 +22,7 @@ $(document).ready(function () {
     var checkP2 = false;
 
     var playerName;
+    var playerNumber;
     var p1Wins;
     var p1Losses;
     var p1Choice;
@@ -37,6 +38,7 @@ $(document).ready(function () {
         event.preventDefault();
         
             playerCount++;
+            playerNumber = playerCount;
             playerName = $("#playerName").val().trim();
 
             // Creates a database reference location called player, and gives it a child equal to the playerCount
@@ -45,6 +47,7 @@ $(document).ready(function () {
             // Sets our database values
             newPlayer.set({
                 name: playerName,
+                number: playerNumber,
                 wins: 0,
                 losses: 0,
               });
@@ -63,5 +66,14 @@ $(document).ready(function () {
         checkP2 = snap.child('player/2').exists();
         console.log(checkP2);
 
+        //display Player 1's info. Grabs the info from the database reference and subsequent children
+        if (checkP1){
+            $("#player1Name").text(snap.child("player/1").val().name);
+        }
+
+        //display Player 2's info. Grabs the info from the database reference and subsequent children
+        if(checkP2){
+			$('#player2Name').text(snap.child('player/2').val().name);
+        }
     })
 })
