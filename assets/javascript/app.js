@@ -21,14 +21,13 @@ $(document).ready(function () {
     var checkP1 = false;
     var checkP2 = false;
 
+    var playerName;
     var p1Wins;
     var p1Losses;
-    var p1Name;
     var p1Choice;
 
     var p2Wins;
     var p2Losses;
-    var p2Name;
     var p2Choice;
 
 
@@ -36,20 +35,33 @@ $(document).ready(function () {
     $('#playerSend').on('click', function(){
         // Prevent the page from refreshing
         event.preventDefault();
-        if (playerCount === 0){
+        
             playerCount++;
-            p1Name = $("#playerName").val().trim();
+            playerName = $("#playerName").val().trim();
+
+            // Creates a database reference location called player, and gives it a child equal to the playerCount
             var newPlayer = database.ref('player').child(playerCount);
 
+            // Sets our database values
             newPlayer.set({
-                name: p1Name,
+                name: playerName,
                 wins: 0,
                 losses: 0,
               });
-        }
+        
 
         // Hide the input section
 		$('#playerInput').hide();
 
-	})
+    })
+    
+    //Firebase listener 
+    database.ref().on("value", function(snap){
+        //exists() is a simple way for firebase to check if something is there. it's a boolean value.
+        checkP1 = snap.child('player/1').exists();
+        console.log(checkP1);
+        checkP2 = snap.child('player/2').exists();
+        console.log(checkP2);
+
+    })
 })
