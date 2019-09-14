@@ -70,10 +70,15 @@ $(document).ready(function () {
         if (checkP1){
             $("#player1Name").text(snap.child("player/1").val().name);
         }
-
+        else {
+			$('#player1Name').text("Waiting for Player 1");
+        }
         //display Player 2's info. Grabs the info from the database reference and subsequent children
         if(checkP2){
 			$('#player2Name').text(snap.child('player/2').val().name);
+        }
+        else{
+			$('#player2Name').text("Waiting for Player 2");
         }
     })
 })

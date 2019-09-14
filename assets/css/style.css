@@ -1,0 +1,31 @@
+body {
+    background: lightpink;
+}
+
+.container {
+    margin-top: 5%;
+    background: white;
+    border: 1px solid black;
+}
+
+.row {
+    margin-bottom: 5%;
+}
+
+#player1Stats {
+    border: 1px solid black;
+    height: 200px;
+    margin-top: 5%;
+}
+
+#player2Stats {
+    border: 1px solid black;
+    height: 200px;
+    margin-top: 5%;
+}
+
+#battleArena {
+    border: 1px solid black;
+    height: 200px;
+    margin-top: 5%;
+}
