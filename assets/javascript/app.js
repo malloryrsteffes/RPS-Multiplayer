@@ -24,6 +24,7 @@ $(document).ready(function () {
 
     // I may need to make variables for player1Name and player2Name
     var playerName;
+    var playerNumber;
 
     var p1Wins;
     var p1Losses;
@@ -42,11 +43,21 @@ $(document).ready(function () {
         playerCount++;
         playerName = $("#playerName").val().trim();
 
+        if (playerCount < 2){
+            if (checkP1){
+                playerNumber = 2;
+            }
+            else {
+                playerNumber = 1;
+            }
+        }
         // Creates a database reference location called player, and gives it a child equal to the playerCount. This must be what isn't working.
-        var newPlayer = database.ref('player').child(playerCount);
+        var playerDatabase = database.ref("/players/" + playerNumber);
+
+         
 
         // Sets our database values
-        newPlayer.set({
+        playerDatabase.set({
             name: playerName,
             number: playerCount,
             wins: 0,
@@ -60,23 +71,23 @@ $(document).ready(function () {
     })
     
     //Firebase listener 
-    database.ref().on("value", function(snap){
+    database.ref("/players/").on("value", function(snap){
         //exists() is a simple way for firebase to check if something is there. it's a boolean value.
-        checkP1 = snap.child('player/1').exists();
+        checkP1 = snap.child(1).exists();
         console.log(checkP1);
-        checkP2 = snap.child('player/2').exists();
+        checkP2 = snap.child(2).exists();
         console.log(checkP2);
 
         //display Player 1's info. Grabs the info from the database reference and subsequent children
         if (checkP1){
-            $("#player1Name").text(snap.child("player/1").val().name);
+            $("#player1Name").text(snap.child(1).val().name);
         }
         else {
 			$('#player1Name').text("Waiting for Player 1");
         }
         //display Player 2's info. Grabs the info from the database reference and subsequent children
         if(checkP2){
-			$('#player2Name').text(snap.child('player/2').val().name);
+			$('#player2Name').text(snap.child(2).val().name);
         }
         else{
 			$('#player2Name').text("Waiting for Player 2");
