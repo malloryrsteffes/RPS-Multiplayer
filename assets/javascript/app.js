@@ -20,9 +20,11 @@ $(document).ready(function () {
     var playerCount = 0;
     var checkP1 = false;
     var checkP2 = false;
+    var isGameOn = false;
 
+    // I may need to make variables for player1Name and player2Name
     var playerName;
-    var playerNumber;
+
     var p1Wins;
     var p1Losses;
     var p1Choice;
@@ -37,20 +39,19 @@ $(document).ready(function () {
         // Prevent the page from refreshing
         event.preventDefault();
         
-            playerCount++;
-            playerNumber = playerCount;
-            playerName = $("#playerName").val().trim();
+        playerCount++;
+        playerName = $("#playerName").val().trim();
 
-            // Creates a database reference location called player, and gives it a child equal to the playerCount
-            var newPlayer = database.ref('player').child(playerCount);
+        // Creates a database reference location called player, and gives it a child equal to the playerCount. This must be what isn't working.
+        var newPlayer = database.ref('player').child(playerCount);
 
-            // Sets our database values
-            newPlayer.set({
-                name: playerName,
-                number: playerNumber,
-                wins: 0,
-                losses: 0,
-              });
+        // Sets our database values
+        newPlayer.set({
+            name: playerName,
+            number: playerCount,
+            wins: 0,
+            losses: 0,
+            });
         
 
         // Hide the input section
@@ -79,6 +80,14 @@ $(document).ready(function () {
         }
         else{
 			$('#player2Name').text("Waiting for Player 2");
+        }
+
+        //If there are two players, we need to turn the game on, start our turns, and show them their choices
+        if (!isGameOn && checkP1 && checkP2){
+
+            //create a database reference to the amount of turns and start it at 1
+            database.ref("turns").set(1);
+            isGameOn = true;
         }
     })
 })
